@@ -17,6 +17,7 @@ for(var i=0;i<len;i++){//对全部的图片旋转
     //获取每个img元素  并设置对应的旋转角度
     oImg[i].style.transform="rotateY("+Deg*i+"deg) translateZ(350px)";
 }
+var timer;
 var x,y,
     nowX,nowY,//nowx:鼠标移动一次产生的新值
     lastX,lastY,//lastX:鼠标移动过后新值转为旧值
@@ -40,6 +41,18 @@ document.onmousedown=function(e){
         lastY=nowY;
     }
     this.onmouseup=function(e){
+        timer=setInterval(function(){
+            minX*=0.98;
+            minY*=0.95;
+            roX-=minY*0.05;
+            roY+=minX*0.1;//从左到右改变的是y轴的值
+            oWrap.style.transform="rotateX("+roX+"deg) rotateY"+
+                "("+roY+"deg)";
+            if(Math.abs(minX)<0.01||Math.abs(minY)<0.01){
+                clearInterval(timer);
+            }
+
+        },13);
         this.onmousemove=null;//终止移动事件
         this.onmouseup=null;
     }
